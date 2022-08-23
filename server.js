@@ -20,13 +20,6 @@ server.use(
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(express.json());
 
-/*const db = mysql.createConnection({
-  host: process.env.DEV_DATABASE_HOST,
-  user: process.env.DEV_DATABASE_USER,
-  database: process.env.DEV_DATABASE,
-  password: process.env.DEV_DATABASE_PASS,
-});*/
-
 const db = mysql.createConnection({
   host: process.env.PROD_DATABASE_HOST,
   user: process.env.PROD_DATABASE_USER,
@@ -43,16 +36,6 @@ db.connect((err) => {
 
 server.get("/", (req, res) => {
   res.send("Database running successfully.");
-});
-
-server.get("/create_database", (req, res) => {
-  let sql = "CREATE DATABASE gamerCorner";
-  db.query(sql, (err, result) => {
-    if (err) throw err;
-    else {
-      res.send("Created database:", result);
-    }
-  });
 });
 
 server.get("/create_table", (req, res) => {
