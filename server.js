@@ -41,12 +41,16 @@ db.connect((err) => {
   }
 });
 
+server.get("/", (req, res) => {
+  res.send("Database running successfully.");
+});
+
 server.get("/create_database", (req, res) => {
   let sql = "CREATE DATABASE gamerCorner";
   db.query(sql, (err, result) => {
     if (err) throw err;
     else {
-      console.log("Created database:", result);
+      res.send("Created database:", result);
     }
   });
 });
@@ -57,7 +61,7 @@ server.get("/create_table", (req, res) => {
   db.query(sql, (err, result) => {
     if (err) throw err;
     else {
-      console.log("Created table:", result);
+      res.send("Created table:", result);
     }
   });
 });
