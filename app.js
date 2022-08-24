@@ -4,7 +4,6 @@ const cors = require("cors");
 const path = require("path");
 const bodyParser = require("body-parser");
 const { urlencoded } = require("express");
-const bcrypt = require("bcrypt");
 require("dotenv").config();
 const app = express();
 
