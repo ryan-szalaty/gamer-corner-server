@@ -26,14 +26,17 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
-const db = mysql.createConnection({
+const pool = mysql.createConnection({
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
   database: process.env.DATABASE,
   password: process.env.DATABASE_PASS,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
-db.connect((err) => {
+pool.connect((err) => {
   if (err) throw err;
   else {
     console.log("Database connected!");
@@ -47,7 +50,7 @@ app.get("/", (req, res) => {
 app.get("/create_table", (req, res) => {
   let sql =
     "CREATE TABLE Users (UserId INT AUTO_INCREMENT, Username VARCHAR(255), Email VARCHAR(255), Password VARCHAR(255), PRIMARY KEY (UserId))";
-  db.query(sql, (err, result) => {
+  pool.query(sql, (err, result) => {
     if (err) throw err;
     else {
       res.send("Created table.");
@@ -57,7 +60,7 @@ app.get("/create_table", (req, res) => {
 
 app.get("/get_data", (req, res) => {
   let sql = "SELECT * FROM Users";
-  db.query(sql, (err, result) => {
+  pool.query(sql, (err, result) => {
     if (err) throw err;
     else {
       res.send(result);
@@ -70,7 +73,7 @@ app.post("/register", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   let sql = "INSERT INTO Users (username, email, password) VALUES (?, ?, ?)";
-  db.query(sql, [username, email, password], (err, result) => {
+  pool.query(sql, [username, email, password], (err, result) => {
     if (err) throw err;
     else {
       console.log("Successfully registered. New user: ", {
