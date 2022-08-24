@@ -9,6 +9,11 @@ require("dotenv").config();
 
 const server = express();
 
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8000;
+}
+
 
 server.set("view engine", "ejs");
 
@@ -81,6 +86,6 @@ server.post("/register", (req, res) => {
   });
 });
 
-server.listen(process.env.PORT || PORT, () => {
-  console.log(`Server now online!`);
+server.listen(port, () => {
+  console.log(`Server now listening on PORT ${port}!`);
 });
