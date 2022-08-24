@@ -81,6 +81,6 @@ server.post("/register", (req, res) => {
   });
 });
 
-server.listen(process.env.PORT, () => {
-  console.log(`Server listening on ${process.env.PORT}`);
+server.listen(process.env.PORT || PORT, () => {
+  console.log(`Server now online!`);
 });
