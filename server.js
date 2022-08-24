@@ -9,7 +9,9 @@ require("dotenv").config();
 
 const server = express();
 
-server.use(express.static(path.resolve(__dirname, "../client/build")));
+
+server.set("view engine", "ejs");
+
 server.use(
   cors({
     origin: true,
@@ -17,6 +19,7 @@ server.use(
     credentials: true,
   })
 );
+
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(express.json());
 
@@ -35,7 +38,7 @@ db.connect((err) => {
 });
 
 server.get("/", (req, res) => {
-  res.send("Database running successfully.");
+  res.render("index");
 });
 
 server.get("/create_table", (req, res) => {
